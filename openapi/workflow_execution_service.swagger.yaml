@@ -314,7 +314,7 @@ paths:
           schema:
             $ref: '#/definitions/ErrorResponse'
       parameters:
-        - name: workflow_url
+        - name: run_id
           in: path
           required: true
           type: string
