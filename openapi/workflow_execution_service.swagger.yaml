@@ -333,6 +333,79 @@ paths:
         '200':
           description: ''
           schema:
+            $ref: 'http://json-schema.org/draft-07/schema#'
+        '401':
+          description: The request is unauthorized.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '404':
+          description: The requested workflow run wasn't found.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '403':
+          description: The requester is not authorized to perform this action.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '500':
+          description: An unexpected error occurred.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      parameters:
+        - in: formData
+          name: workflow_url
+          type: string
+          required: true
+
+        - in: formData
+          name: workflow_attachment
+          type: array
+          items:
+            type: string
+            format: binary
+      tags:
+        - WorkflowInputs
+  /describe-inputs:
+    get:
+      summary: Get workflow Inputs Structure
+      description: This endpoint describes the structure of workflow's inputs as a json schema. Consumers of this endpoint can use the generated schema to properly format their `workflow_params` when submitting a new run.
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: 'https://json-schema.org/draft-07/schema#'
+        '401':
+          description: The request is unauthorized.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '404':
+          description: The requested workflow run wasn't found.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '403':
+          description: The requester is not authorized to perform this action.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '500':
+          description: An unexpected error occurred.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      parameters:
+        - name: run_id
+          in: path
+          required: true
+          type: string
+      tags:
+        - WorkflowInputs
+    post:
+      summary: Get workflow Inputs Structure With Attachments
+      description: >-
+        This endpoint describes the structure of workflow's inputs as a json schema. Consumers of this endpoint can use the generated schema to properly format their `workflow_params` when submitting a new run.
+        The `workflow_attachment` array may be used to upload the primary workflow and other files referenced by the workflow.
+        The `workflow_url` is either an absolute URL to a workflow file that is accessible by the WES endpoint, or a relative URL corresponding to one of the files attached using `workflow_attachment`.
+      responses:
+        '200':
+          description: ''
+          schema:
             $ref: '#/definitions/RunStatus'
         '401':
           description: The request is unauthorized.
@@ -357,6 +430,10 @@ paths:
           type: string
       tags:
         - WorkflowExecutionService
+        
+        
+    
+      deprecated: false
 definitions:
   DefaultWorkflowEngineParameter:
     type: object

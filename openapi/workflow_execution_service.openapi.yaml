@@ -21,6 +21,8 @@ tags:
     description: Get information about the workflow execution service
   - name: Workflow Runs
     description: Submit and monitor workflows in a WES environment
+  - name: Workflow Inputs
+    description: Get the expected structure of workflow inputs
   - name: Introduction
     description:
       $ref: ./tags/introduction.md
@@ -99,6 +101,8 @@ paths:
     $ref: ./paths/runs@{run_id}@status.yaml
   '/runs/{run_id}/cancel':
     $ref: ./paths/runs@{run_id}@cancel.yaml
+  /describe-inputs:
+    $ref: ./paths/describe-inputs.yaml
 components:
   schemas:
     ServiceInfo:

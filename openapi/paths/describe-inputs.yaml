@@ -1,0 +1,110 @@
+  get:
+    tags:
+    - Workflow Inputs
+    summary: Get workflow Inputs Structure
+    description: This endpoint describes the structure of workflow's inputs as a json schema. Consumers of this endpoint can use the generated schema to properly format their `workflow_params` when submitting a new run.
+    operationId: DescribeWorkflowInputs
+    parameters:
+    - name: workflow_url
+      in: query
+      description: The absolute URL to a workflow file.
+      style: form
+      explode: true
+      schema:
+        type: string
+        format: URL
+    responses:
+      200:
+        description: 'Successfully parsed the workflow and returned a JSON schema for the workflow inputs'
+        headers: {}
+        content:
+          application/json:
+            schema:
+              $ref: 'http://json-schema.org/draft-07/schema#'
+      400:
+        description: The request is malformed.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ErrorResponse'
+      401:
+        description: The request is unauthorized.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ErrorResponse'
+      403:
+        description: The requester is not authorized to perform this action.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ErrorResponse'
+      500:
+        description: An unexpected error occurred.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ErrorResponse'
+    deprecated: false
+  post:
+    tags:
+    - Workflow Inputs
+    summary: Get workflow Inputs Structure With Attachments
+    description: >-
+      This endpoint describes the structure of workflow's inputs as a json schema. Consumers of this endpoint can use the generated schema to properly format their `workflow_params` when submitting a new run.
+
+      The `workflow_attachment` array may be used to upload the primary workflow and other files referenced by the workflow.
+
+      The `workflow_url` is either an absolute URL to a workflow file that is accessible by the WES endpoint, or a relative URL corresponding to one of the files attached using `workflow_attachment`.
+
+    operationId: DescribeWorkflowInputsWithAttachments
+    parameters: []
+    requestBody:
+      content:
+        multipart/form-data:
+          encoding: {}
+          schema:
+            type: object
+            properties:
+              workflow_url:
+                type: string
+              workflow_attachment:
+                type: array
+                items:
+                  type: string
+                  format: binary
+                description: ''
+      required: false
+    responses:
+      200:
+        description: 'Successfully parsed the workflow and returned a JSON schema for the workflow inputs'
+        headers: {}
+        content:
+          application/json:
+            schema:
+              $ref: 'http://json-schema.org/draft-07/schema#'
+      400:
+        description: The request is malformed.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ErrorResponse'
+      401:
+        description: The request is unauthorized.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ErrorResponse'
+      403:
+        description: The requester is not authorized to perform this action.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ErrorResponse'
+      500:
+        description: An unexpected error occurred.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ErrorResponse'
+    deprecated: false
